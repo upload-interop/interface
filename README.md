@@ -3,7 +3,7 @@
 [![PDS Skeleton](https://img.shields.io/badge/pds-skeleton-blue.svg?style=flat-square)](https://github.com/php-pds/skeleton)
 [![PDS Composer Script Names](https://img.shields.io/badge/pds-composer--script--names-blue?style=flat-square)](https://github.com/php-pds/composer-script-names)
 
-Upload-Interop publishes a standard set of interoperable upload structure interfaces for PHP 8.4+. It reflects, refines, and reconciles the common practices identified within [several pre-existing projects][README-RESEARCH.md].
+Upload-Interop provides an interoperable package of standard interfaces for working with upload structures in PHP 8.4+. It reflects, refines, and reconciles the common practices identified within [several pre-existing projects][README-RESEARCH.md].
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in [BCP 14][] ([RFC 2119][], [RFC 8174][]).
 
@@ -65,14 +65,14 @@ The _UploadStructFactory_ interface affords creating an [_UploadStruct_][] insta
 
 ### _UploadFilesParser_
 
-The _UploadStructFactory_ interface affords parsing `$_FILES` to create an `uploads_array` of [_UploadStruct_][] instances:
+The _UploadFilesParser_ interface affords parsing `$_FILES` to create an `uploads_array` of [_UploadStruct_][] instances:
 
 -
     ```php
     public function parseUploadFiles(files_array $files) : uploads_array;
     ```
 
-The `uploads_array` index structure returned from `parseUploadFiles()` MUST correspond to the structure in which the `$files` were indexed; cf. [README-FILES.md][].
+The `uploads_array` index structure returned from `parseUploadFiles()` MUST correspond to the structure in which the `files_array` was indexed; cf. [README-FILES.md][].
 
 ### _UploadTypeAliases_
 
@@ -110,8 +110,9 @@ Notes:
 
 - **The `files_*` types are defined from the `$_FILES` structure.** Cf. <https://www.php.net/manual/en/features.file-upload.post-method.php>.
 
-
 ## Implementations
+
+Implementations MAY validate _UploadStruct_ values; implmentations MUST throw an _UploadThrowable_ when a value is invalid.
 
 Implementations advertised as readonly or immutable MUST be deeply readonly or immutable; they MUST NOT encapsulate any references, resources, mutable objects, objects or arrays encapsulating references or resources or mutable objects, and so on.
 
@@ -139,6 +140,9 @@ Insofar as `$_GET` and `$_POST` user inputs are arbitrarily structured from inte
 
 As with other user inputs, it is an application-specific concern to map those arbitrary structures to more well-defined ones, such as domain-specific collections.
 
+## Why are there no mutable or immutable interfaces?
+
+An upload represents user input; the original user input values should be retained unmodified. If consumers need to modify the user input, those modifications should be captured in a domain-specific structure.
 
 * * *
 

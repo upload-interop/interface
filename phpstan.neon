@@ -2,7 +2,3 @@ parameters:
     level: max
     paths:
         - src
-        - tests
-
-includes:
-    - ./resources/phpstan.include.neon

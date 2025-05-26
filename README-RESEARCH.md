@@ -102,9 +102,11 @@ These projects provide a method to read the body content of the uploaded file:
 | lithium   |                          |
 | mediawiki |                          |
 | nette     | `getContents() : string` |
-| psr       | via `getStream()`        |
+| psr       | via `getStream()` (1)    |
 | symfony   | `getContent() : string`  |
 | yii2      |                          |
+
+(1) PSR-7 `UploadedFileInterface::getStream()` method returns a _StreamInterface_, on which the `getContents()` method can be called.
 
 ## File Movement
 

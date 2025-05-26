@@ -34,8 +34,6 @@
     },
     "scripts": {
         "analyze": "./vendor/bin/phpstan",
-        "check": "composer test && composer analyze",
-        "test": "./vendor/bin/phpunit",
-        "test-coverage": "./vendor/bin/phpunit --coverage-html=./tmp/coverage"
+        "check": "composer analyze"
     }
 }
