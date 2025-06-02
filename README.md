@@ -14,14 +14,14 @@ This package attempts to adhere to the [Package Development Standards](https://p
 Upload-Interop defines these interfaces:
 
 - [_UploadStruct_][] represents an individual upload.
-- [_UploadStructFactory_][] affords creating an [_UploadStruct_][] instance.
-- [_UploadFilesParser_][] affords parsing `$_FILES` to create an `uploads_array` of [_UploadStruct_][] instances.
+- [_UploadStructFactory_][] affords creating one or more [_UploadStruct_][] instances.
+- [_UploadThrowable_][] marks an [_Exception_][] as upload-related.
 
 Upload-Interop also defines an [_UploadTypeAliases_][] interface with PHPStan types to aid static analysis.
 
 ### _UploadStruct_
 
-The [_UploadStruct_][] interface affords reading the `$_FILES` values for a single uploaded file. It defines these properties:
+The [_UploadStruct_][] interface represents the `$_FILES` values for a single uploaded file. It defines these properties:
 
 - `string $tmp_name { get; }`
     - Corresponds to the `'tmp_name'` key in a `files_item_array`.
@@ -49,7 +49,7 @@ Notes:
 
 ### _UploadStructFactory_
 
-The _UploadStructFactory_ interface affords creating an [_UploadStruct_][] instance:
+The _UploadStructFactory_ interface affords creating a single [_UploadStruct_][] instance ...
 
 -
     ```php
@@ -63,16 +63,18 @@ The _UploadStructFactory_ interface affords creating an [_UploadStruct_][] insta
     ) : UploadStruct;
     ```
 
-### _UploadFilesParser_
-
-The _UploadFilesParser_ interface affords parsing `$_FILES` to create an `uploads_array` of [_UploadStruct_][] instances:
+... or an `uploads_array` of [_UploadStruct_][] instances parsed from `$_FILES` (or its equivalent):
 
 -
     ```php
-    public function parseUploadFiles(files_array $files) : uploads_array;
+    public function newUploadsFromFiles(files_array $files) : uploads_array;
     ```
 
-The `uploads_array` index structure returned from `parseUploadFiles()` MUST correspond to the structure in which the `files_array` was indexed; cf. [README-FILES.md][].
+The `uploads_array` index structure returned by `newUploadsFromFiles()` MUST correspond to the structure in which the `files_array` fields were indexed; cf. [README-FILES.md][].
+
+### _UploadThrowable_
+
+The _UploadThrowable_ interface marks an [_Exception_][] as upload-related; it adds no new class members.
 
 ### _UploadTypeAliases_
 
@@ -112,7 +114,7 @@ Notes:
 
 ## Implementations
 
-Implementations MAY validate _UploadStruct_ values; implmentations MUST throw an _UploadThrowable_ when a value is invalid.
+Implementations MAY validate [_UploadStruct_][] values; implmentations MUST throw an [_UploadThrowable_][] when a value is invalid.
 
 Implementations advertised as readonly or immutable MUST be deeply readonly or immutable; they MUST NOT encapsulate any references, resources, mutable objects, objects or arrays encapsulating references or resources or mutable objects, and so on.
 
@@ -128,27 +130,28 @@ Notes:
 
 ## Why a separate Upload-Interop?
 
-Whereas the key structures of $_GET, $_POST, etc. data structures are completely undefined, the terminating `$_FILES` data structure is well-defined. However, one wants to be able to pass that data structure (or a representation of it) into presentation-independent application or domain logic. As such, one would prefer something that is not tied to a particular presentation format.
+Whereas the key structures of `$_GET`, `$_POST`, etc. data structures are not well-defined, the terminating `$_FILES` data structure is well-defined. However, one wants to be able to pass that data structure (or a representation of it) into presentation-independent application or domain logic. As such, one would prefer something that is not tied to a particular presentation format.
 
-For example, embedding the Upload-Interop structures in a server-side request interop standard HTTP could reasonably be considered as tying the structures to HTTP presentation. That in turn would make it theoretically unsuitable for application or domain use.
+For example, embedding the Upload-Interop structures in an HTTP-related standard could reasonably be considered to be tying the structures to the HTTP presentation format. That in turn would make it academically unsuitable for application or domain use.
 
 Thus, Upload-Interop being separated from a particular presentation format gives philosophical cover to using [_UploadStruct_][] instances and the various [_UploadTypeAliases_][] in application or domain logic, much the same way there is cover for using DateTime or SimpleXml instances in application or domain logic.
 
 ### Why is there no _UploadCollection_ ?
 
-Insofar as `$_GET` and `$_POST` user inputs are arbitrarily structured from interaction to interaction, `$_FILES` is likewise arbitrarily structured (but for the terminating `files_array_item`). An `uploads_array` is a representation of that arbitrary structure.
+`$_GET` and `$_POST` user inputs are arbitrarily structured from interaction to interaction. Except for the terminating `files_array_item`, the `$_FILES` user inputs are likewise arbitrarily structured. An `uploads_array` is a representation of that arbitrary structure.
 
 As with other user inputs, it is an application-specific concern to map those arbitrary structures to more well-defined ones, such as domain-specific collections.
 
 ## Why are there no mutable or immutable interfaces?
 
-An upload represents user input; the original user input values should be retained unmodified. If consumers need to modify the user input, those modifications should be captured in a domain-specific structure.
+An upload represents user input; the original user input values should be retained unmodified. If consumers need to modify the user input, those modifications should be captured in an application- or domain-specific structure.
 
 * * *
 
-[_UploadFilesParser_]: #uploadfilesparser
+[_Exception_]: https://php.net/Exception
 [_UploadStruct_]: #uploadstruct
 [_UploadStructFactory_]: #uploadstructfactory
+[_UploadThrowable_]: #uploadthrowable
 [_UploadTypeAliases_]: #uploadtypealiases
 [BCP 14]: https://www.rfc-editor.org/info/bcp14
 [README-FILES.md]: ./README-FILES.md
