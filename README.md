@@ -43,13 +43,15 @@ The [_UploadStruct_][] interface represents the `$_FILES` values for a single up
 
 Notes:
 
+- **The interfaces defines property hooks for `get` but not `set`.** The interface only guarantees readability; writability is outside the scope of this package.
+
 - **The properties are in `snake_case`, not `camelCase`.** This maintains a direct 1:1 correspondence between the native `$_FILES` array keys and the [_UploadStruct_][] properties.
 
 - **There are no affordances for operating on the uploaded file itself.** Reading from, writing to, moving, copying, renaming, etc. an uploaded file are application-specific concerns, independent from any specific [_UploadStruct_][] implementation.
 
 ### _UploadStructFactory_
 
-The _UploadStructFactory_ interface affords creating a single [_UploadStruct_][] instance ...
+The [_UploadStructFactory_][] interface affords creating a single [_UploadStruct_][] instance ...
 
 -
     ```php
@@ -74,7 +76,7 @@ The `uploads_array` index structure returned by `newUploadsFromFiles()` MUST cor
 
 ### _UploadThrowable_
 
-The _UploadThrowable_ interface marks an [_Exception_][] as upload-related; it adds no new class members.
+The _UploadThrowable_ interface marks an [_Exception_][] as upload-related. It adds no class members.
 
 ### _UploadTypeAliases_
 
@@ -114,7 +116,7 @@ Notes:
 
 ## Implementations
 
-Implementations MAY validate [_UploadStruct_][] values; implmentations MUST throw an [_UploadThrowable_][] when a value is invalid.
+Implementations MAY validate [_UploadStruct_][] values; implementations MUST throw an [_UploadThrowable_][] when a value is invalid.
 
 Implementations advertised as readonly or immutable MUST be deeply readonly or immutable; they MUST NOT encapsulate any references, resources, mutable objects, objects or arrays encapsulating references or resources or mutable objects, and so on.
 
@@ -130,11 +132,11 @@ Notes:
 
 ## Why a separate Upload-Interop?
 
-Whereas the key structures of `$_GET`, `$_POST`, etc. data structures are not well-defined, the terminating `$_FILES` data structure is well-defined. However, one wants to be able to pass that data structure (or a representation of it) into presentation-independent application or domain logic. As such, one would prefer something that is not tied to a particular presentation format.
+Whereas the key structures of `$_GET`, `$_POST`, etc. superglobal arrays are not well-defined, the terminating `files_array_item` data structure in the `$_FILES` superglobal **is** well-defined. However, one wants to be able to pass that data structure (or a representation of it) into presentation-independent application or domain logic. As such, one would prefer something that is not tied to a particular presentation format.
 
-For example, embedding the Upload-Interop structures in an HTTP-related standard could reasonably be considered to be tying the structures to the HTTP presentation format. That in turn would make it academically unsuitable for application or domain use.
+For example, embedding the Upload-Interop structures in an HTTP-related standard could reasonably be considered to be tying the structures to the HTTP presentation format. That in turn would make Upload-Interop academically unsuitable for application or domain use.
 
-Thus, Upload-Interop being separated from a particular presentation format gives philosophical cover to using [_UploadStruct_][] instances and the various [_UploadTypeAliases_][] in application or domain logic, much the same way there is cover for using DateTime or SimpleXml instances in application or domain logic.
+Thus, Upload-Interop being separated from a particular presentation format gives philosophical cover to using [_UploadStruct_][] instances and the various [_UploadTypeAliases_][] in application or domain logic, much the same way there is cover for using [_DateTime_][] or [_SimpleXmlElement_][] instances in application or domain logic.
 
 ### Why is there no _UploadCollection_ ?
 
@@ -142,13 +144,11 @@ Thus, Upload-Interop being separated from a particular presentation format gives
 
 As with other user inputs, it is an application-specific concern to map those arbitrary structures to more well-defined ones, such as domain-specific collections.
 
-## Why are there no mutable or immutable interfaces?
-
-An upload represents user input; the original user input values should be retained unmodified. If consumers need to modify the user input, those modifications should be captured in an application- or domain-specific structure.
-
 * * *
 
+[_DateTime_]: https://www.php.net/manual/en/class.datetime.php
 [_Exception_]: https://php.net/Exception
+[_SimpleXmlElement_]: https://www.php.net/manual/en/class.simplexmlelement.php
 [_UploadStruct_]: #uploadstruct
 [_UploadStructFactory_]: #uploadstructfactory
 [_UploadThrowable_]: #uploadthrowable
