@@ -5,6 +5,7 @@ namespace UploadInterop\Interface;
 
 /**
  * @phpstan-import-type files_array from UploadTypeAliases
+ *
  * @phpstan-import-type uploads_array from UploadTypeAliases
  */
 interface UploadStructFactory
