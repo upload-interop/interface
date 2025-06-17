@@ -114,6 +114,8 @@ Notes:
 
 - **The `files_*` types are defined from the `$_FILES` structure.** Cf. <https://www.php.net/manual/en/features.file-upload.post-method.php>.
 
+- **The `*_[00-0F]` types are to enable limited recursion.** PHPStan does not handle recursive type aliases, so `files_array` and `uploads_array` cannot ever refer back to themselves. As a result, those type aliases refer to the `*_[00-0F]` types to enable recursion to 16 dimensions. Consumers need not use these recursion-enabling type aliases.
+
 ## Implementations
 
 Implementations MAY validate [_UploadStruct_][] values; implementations MUST throw an [_UploadThrowable_][] when a value is invalid.
