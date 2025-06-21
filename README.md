@@ -118,7 +118,7 @@ Notes:
 
 ## Implementations
 
-Implementations MAY validate [_UploadStruct_][] values; implementations MUST throw an [_UploadThrowable_][] when a value is invalid.
+Implementations MAY validate [_UploadStruct_][] values; implementations doing so MUST throw an [_UploadThrowable_][] when a value is invalid.
 
 Implementations advertised as readonly or immutable MUST be deeply readonly or immutable; they MUST NOT encapsulate any references, resources, mutable objects, objects or arrays encapsulating references or resources or mutable objects, and so on.
 
