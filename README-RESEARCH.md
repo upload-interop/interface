@@ -12,6 +12,7 @@ Upload-Interop is based on research including the following projects:
 - [Lithium](https://github.com/UnionOfRAD/lithium/blob/1.3/action/Request.php) (lithium)
 - [MediaWiki](https://github.com/wikimedia/mediawiki/blob/e45f6a85c0d617884cece009f0252a53d7b1ee53/includes/Request/WebRequestUpload.php) (mediawiki)
 - [nette/http](https://github.com/nette/http/blob/master/src/Http/FileUpload.php) (nette)
+- [Phalcon](https://github.com/phalcon/cphalcon/blob/v3.4.0/phalcon/http/request/file.zep) (phalcon)
 - [psr/http-message](https://github.com/php-fig/http-message/blob/master/src/UploadedFileInterface.php) (psr)
 - [symfony/http-foundation](https://github.com/symfony/http-foundation/blob/6023ec7607254c87c5e69fb3558255aca440d72b/File/UploadedFile.php) (symfony)
 - [tempestphp/tempest-framework](https://github.com/tempestphp/tempest-framework/blob/main/packages/http/src/) (tempest)
@@ -34,6 +35,7 @@ The projects offer varying levels of mutability:
 | lithium   |          | x       |           |
 | mediawiki |          | x       |           |
 | nette     | x        |         |           |
+| phalcon   | x        |         |           |
 | psr       |          |         | x (1)     |
 | symfony   | x        |         |           |
 | tempest   | x        |         |           |
@@ -58,6 +60,7 @@ Most of the projects retain the `$_FILES` values as an array, and provide access
 | lithium   | x           |                   |                |
 | mediawiki | x           |                   |                |
 | nette     |             |                   | x              |
+| phalcon   |             |                   | x              |
 | psr       |             |                   | x              |
 | symfony   |             |                   | x              |
 | tempest   |             |                   |                |
@@ -68,14 +71,15 @@ The projects not using native keys use these properties and methods:
 |           | `tmp_name`           | `error`      | `name`                    | `full_path`                  | `type`                 | `size`       |
 | --------- | -------------------- | ------------ | ------------------------- | ---------------------------- | ---------------------- | ------------ |
 | ci3       | `$file_temp`         | `$error_msg` | `$file_name`              | `$upload_path`               | `$file_type`           | `$file_size` |
-| flight    | `getTempName()`      | `getError()` | `getClientFilename()`     | - (1)                        | `getClientMediaType()` | `getSize()`  |
+| flight    | `getTempName()`      | `getError()` | `getClientFilename()`     | -                            | `getClientMediaType()` | `getSize()`  |
 | nette     | `getTemporaryFile()` | `getError()` | `getUntrustedName()`      | `getUntrustedFullPath()`     | `getContentType()`     | `getSize()`  |
-| psr       | via `getStream()`    | `getError()` | `getClientFilename()`     | - (1)                        | `getClientMediaType()` | `getSize()`  |
+| phalcon   | `getTempName()`      | -            | `getName()`               | -                            | `getType()`            | `getSize()   |
+| psr       | via `getStream()`    | `getError()` | `getClientFilename()`     | -                            | `getClientMediaType()` | `getSize()`  |
 | symfony   | `getPathName()`      | `getError()` | `getClientOriginalName()` | `getClientOriginalPath()`    | `getClientMimeType()`  | `getSize()`  |
-| tempest   | via `getStream()`    | `getError()` | `getClientFilename()`     | - (1)                        | `getClientMediaType()` | `getSize()`  |
+| tempest   | via `getStream()`    | `getError()` | `getClientFilename()`     | -                            | `getClientMediaType()` | `getSize()`  |
 | yii2      | `$tempName`          | `$error`     | `$name`                   | `$fullPath`                  | `$type`                | `$size`      |
 
-(1) Flight, PSR-7, and Tempest do not provide access to the uploaded file `full_path` value.
+Note that projects marked with `-` do not offer a value for the relevant `$_FILES` key.
 
 ## Normalization of `$_FILES` Structure
 
@@ -93,6 +97,7 @@ Some projects retain the `$_FILES` array as given by PHP, while others normalize
 | lithium   | x                    |
 | mediawiki |                      |
 | nette     | x                    |
+| phalcon   | x                    |
 | psr       | x                    |
 | symfony   | x                    |
 | tempest   | x                    |
@@ -114,6 +119,7 @@ These projects provide a method to read the body content of the uploaded file:
 | lithium   |                          |
 | mediawiki |                          |
 | nette     | `getContents() : string` |
+| phalcon   |                          |
 | psr       | via `getStream()` (1)    |
 | symfony   | `getContent() : string`  |
 | tempest   | via `getStream()` (1)    |
@@ -137,6 +143,7 @@ These projects provide a method to move, copy, or rename the uploaded file:
 | lithium   |                                                        |
 | mediawiki |                                                        |
 | nette     | `move(string $dest) : $this`                           |
+| phalcon   | `moveTo(string $destination) : bool`                   |
 | psr       | `moveTo(string $dest) : void`                          |
 | symfony   | `move(string $directory, ?string $name = null) : File` |
 | tempest   | `moveTo(string $targetPath) : void`                    |
