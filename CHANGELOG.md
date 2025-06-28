@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.0.0-alpha2
+
+Incoporated indications from public review:
+
+- Phalcon is now included in the research.
+- Added clarifying notes to the README.
+
 ## 1.0.0-alpha1
 
 Incorporated indications from private review:
