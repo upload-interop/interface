@@ -146,6 +146,36 @@ Thus, Upload-Interop being separated from a particular presentation format gives
 
 As with other user inputs, it is an application-specific concern to map those arbitrary structures to more well-defined ones, such as domain-specific collections.
 
+### Why is it an _Upload*Struct*_ and not just an _Upload_ ?
+
+Upload-Interop wants to avoid _Interface_ suffixes, and wants to avoid making implementors use import aliases. Calling it an _Upload_ would mean any implementation also called _Upload_ would have to alias the interop interface. It is the difference between this less-prefereable alternative ...
+
+```php
+use UploadInterop\Interface\Upload as UploadInteropInterface;
+
+class Upload implements UploadInteropInterface
+{
+    // ...
+}
+```
+
+... and this more-preferable one:
+
+
+```php
+use UploadInterop\Interface\UploadStruct;
+
+class Upload implements UploadStruct
+{
+    // ...
+}
+```
+
+
+Further, the _Upload_ definition is struct-like in that it is composed only of properties.
+
+It is true that none of the researched implementations use _Struct_ in their naming; but then, the interop is for the interface, so existing implementation names can remain as they are.
+
 * * *
 
 [_DateTime_]: https://www.php.net/manual/en/class.datetime.php
