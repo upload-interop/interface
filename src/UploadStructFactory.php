@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace UploadInterop\Interface;
 
 /**
- * @phpstan-import-type files_array from UploadTypeAliases
+ * @phpstan-import-type upload_files_array from UploadTypeAliases
  *
- * @phpstan-import-type uploads_array from UploadTypeAliases
+ * @phpstan-import-type upload_struct_array from UploadTypeAliases
  */
 interface UploadStructFactory
 {
@@ -20,8 +20,8 @@ interface UploadStructFactory
     ) : UploadStruct;
 
     /**
-     * @param files_array $files
-     * @return uploads_array
+     * @param upload_files_array $files
+     * @return upload_struct_array
      */
     public function newUploadsFromFiles(array $files) : array;
 }

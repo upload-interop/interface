@@ -24,22 +24,22 @@ Upload-Interop also defines an [_UploadTypeAliases_][] interface with PHPStan ty
 The [_UploadStruct_][] interface represents the `$_FILES` values for a single uploaded file. It defines these properties:
 
 - `string $tmp_name { get; }`
-    - Corresponds to the `'tmp_name'` key in a `files_item_array`.
+    - Corresponds to the `'tmp_name'` key in a `upload_files_item_array`.
 
 - `int $error { get; }`
-    - Corresponds to the `'error'` key in a `files_item_array`.
+    - Corresponds to the `'error'` key in a `upload_files_item_array`.
 
 - `?string $name { get; }`
-    - Corresponds to the `'name'` key in a `files_item_array`.
+    - Corresponds to the `'name'` key in a `upload_files_item_array`.
 
 - `?string $full_path { get; }`
-    - Corresponds to the `'full_path'` key in a `files_item_array`.
+    - Corresponds to the `'full_path'` key in a `upload_files_item_array`.
 
 - `?string $type { get; }`
-    - Corresponds to the `'type'` key in a `files_item_array`.
+    - Corresponds to the `'type'` key in a `upload_files_item_array`.
 
 - `?int $size { get; }`
-    - Corresponds to the `'size'` key in a `files_item_array`.
+    - Corresponds to the `'size'` key in a `upload_files_item_array`.
 
 Notes:
 
@@ -65,14 +65,14 @@ The [_UploadStructFactory_][] interface affords creating a single [_UploadStruct
     ) : UploadStruct;
     ```
 
-... or an `uploads_array` of [_UploadStruct_][] instances parsed from `$_FILES` (or its equivalent):
+... or an `upload_struct_array` of [_UploadStruct_][] instances parsed from `$_FILES` (or its equivalent):
 
 -
     ```php
-    public function newUploadsFromFiles(files_array $files) : uploads_array;
+    public function newUploadsFromFiles(upload_files_array $files) : upload_struct_array;
     ```
 
-The `uploads_array` index structure returned by `newUploadsFromFiles()` MUST correspond to the structure in which the `files_array` fields were indexed; cf. [README-FILES.md][].
+The `upload_struct_array` index structure returned by `newUploadsFromFiles()` MUST correspond to the structure in which the `upload_files_array` fields were indexed; cf. [README-FILES.md][].
 
 ### _UploadThrowable_
 
@@ -82,9 +82,9 @@ The _UploadThrowable_ interface marks an [_Exception_][] as upload-related. It a
 
 The _UploadTypeAliases_ interface provides these custom PHPStan types to aid static analysis:
 
-- `files_array`: `array<array-key, files_item_array|files_group_array|files_array>` recursively up to 16 dimensions.
+- `upload_files_array`: `array<array-key, upload_files_item_array|upload_files_group_array|upload_files_array>` recursively up to 16 dimensions.
 
-- `files_group_array`:
+- `upload_files_group_array`:
     ```
     array{
         tmp_name:string[],
@@ -96,7 +96,7 @@ The _UploadTypeAliases_ interface provides these custom PHPStan types to aid sta
     }
     ```
 
-- `files_item_array`:
+- `upload_files_item_array`:
     ```
     array{
         tmp_name:string,
@@ -108,13 +108,13 @@ The _UploadTypeAliases_ interface provides these custom PHPStan types to aid sta
     }
     ```
 
-- `uploads_array`: `array<array-key, UploadStruct|uploads_array>` recursively up to 16 dimensions.
+- `upload_struct_array`: `array<array-key, UploadStruct|upload_struct_array>` recursively up to 16 dimensions.
 
 Notes:
 
-- **The `files_*` types are defined from the `$_FILES` structure.** Cf. <https://www.php.net/manual/en/features.file-upload.post-method.php>.
+- **The `upload_files_*` types are defined from the `$_FILES` structure.** Cf. <https://www.php.net/manual/en/features.file-upload.post-method.php>.
 
-- **The `*_[00-0F]` types are to enable limited recursion.** PHPStan does not handle recursive type aliases, so `files_array` and `uploads_array` cannot ever refer back to themselves. As a result, those type aliases refer to the `*_[00-0F]` types to enable recursion to 16 dimensions. Consumers need not use these recursion-enabling type aliases.
+- **The `*_[00-0F]` types are to enable limited recursion.** PHPStan does not handle recursive type aliases, so `upload_files_array` and `upload_struct_array` cannot ever refer back to themselves. As a result, those type aliases refer to the `*_[00-0F]` types to enable recursion to 16 dimensions. Consumers need not use these recursion-enabling type aliases.
 
 ## Implementations
 
@@ -134,7 +134,7 @@ Notes:
 
 ## Why a separate Upload-Interop?
 
-Whereas the key structures of `$_GET`, `$_POST`, etc. superglobal arrays are not well-defined, the terminating `files_array_item` data structure in the `$_FILES` superglobal **is** well-defined. However, one wants to be able to pass that data structure (or a representation of it) into presentation-independent application or domain logic. As such, one would prefer something that is not tied to a particular presentation format.
+Whereas the key structures of `$_GET`, `$_POST`, etc. superglobal arrays are not well-defined, the terminating `upload_files_array_item` data structure in the `$_FILES` superglobal **is** well-defined. However, one wants to be able to pass that data structure (or a representation of it) into presentation-independent application or domain logic. As such, one would prefer something that is not tied to a particular presentation format.
 
 For example, embedding the Upload-Interop structures in an HTTP-related standard could reasonably be considered to be tying the structures to the HTTP presentation format. That in turn would make Upload-Interop academically unsuitable for application or domain use.
 
@@ -142,13 +142,13 @@ Thus, Upload-Interop being separated from a particular presentation format gives
 
 ### Why is there no _UploadCollection_ ?
 
-`$_GET` and `$_POST` user inputs are arbitrarily structured from interaction to interaction. Except for the terminating `files_array_item`, the `$_FILES` user inputs are likewise arbitrarily structured. An `uploads_array` is a representation of that arbitrary structure.
+`$_GET` and `$_POST` user inputs are arbitrarily structured from interaction to interaction. Except for the terminating `upload_files_array_item`, the `$_FILES` user inputs are likewise arbitrarily structured. An `upload_struct_array` is a representation of that arbitrary structure.
 
 As with other user inputs, it is an application-specific concern to map those arbitrary structures to more well-defined ones, such as domain-specific collections.
 
 ### Why is it an _Upload*Struct*_ and not just an _Upload_ ?
 
-Upload-Interop wants to avoid _Interface_ suffixes, and wants to avoid making implementors use import aliases. Calling it an _Upload_ would mean any implementation also called _Upload_ would have to alias the interop interface. It is the difference between this less-prefereable alternative ...
+Upload-Interop wants to avoid _Interface_ suffixes, and wants to avoid making implementors use import aliases. Calling it an _Upload_ would mean any implementation also called _Upload_ would have to alias the interop interface. It is the difference between this less-preferable alternative ...
 
 ```php
 use UploadInterop\Interface\Upload as UploadInteropInterface;
