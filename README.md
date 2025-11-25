@@ -43,7 +43,7 @@ The [_UploadStruct_][] interface represents the `$_FILES` values for a single up
 
 Notes:
 
-- **The interfaces defines property hooks for `get` but not `set`.** The interface only guarantees readability; writability is outside the scope of this package.
+- **The interfaces define property hooks for `get` but not `set`.** The interface only guarantees readability; writability is outside the scope of this package.
 
 - **The properties are in `snake_case`, not `camelCase`.** This maintains a direct 1:1 correspondence between the native `$_FILES` array keys and the [_UploadStruct_][] properties.
 
