@@ -5,8 +5,7 @@ namespace UploadInterop\Interface;
 
 /**
  * @phpstan-import-type upload_files_array from UploadTypeAliases
- *
- * @phpstan-import-type upload_struct_array from UploadTypeAliases
+ * @phpstan-import-type upload_structs_array from UploadTypeAliases
  */
 interface UploadStructFactory
 {
@@ -21,7 +20,7 @@ interface UploadStructFactory
 
     /**
      * @param upload_files_array $files
-     * @return upload_struct_array
+     * @return upload_structs_array
      */
     public function newUploadsFromFiles(array $files) : array;
 }

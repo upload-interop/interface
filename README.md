@@ -65,14 +65,14 @@ The [_UploadStructFactory_][] interface affords creating a single [_UploadStruct
     ) : UploadStruct;
     ```
 
-... or an `upload_struct_array` of [_UploadStruct_][] instances parsed from `$_FILES` (or its equivalent):
+... or an `upload_structs_array` of [_UploadStruct_][] instances parsed from `$_FILES` (or its equivalent):
 
 -
     ```php
-    public function newUploadsFromFiles(upload_files_array $files) : upload_struct_array;
+    public function newUploadsFromFiles(upload_files_array $files) : upload_structs_array;
     ```
 
-The `upload_struct_array` index structure returned by `newUploadsFromFiles()` MUST correspond to the structure in which the `upload_files_array` fields were indexed; cf. [README-FILES.md][].
+The `upload_structs_array` index structure returned by `newUploadsFromFiles()` MUST correspond to the structure in which the `upload_files_array` fields were indexed; cf. [README-FILES.md][].
 
 ### _UploadThrowable_
 
@@ -108,13 +108,13 @@ The _UploadTypeAliases_ interface provides these custom PHPStan types to aid sta
     }
     ```
 
-- `upload_struct_array`: `array<array-key, UploadStruct|upload_struct_array>` recursively up to 16 dimensions.
+- `upload_structs_array`: `array<array-key, UploadStruct|upload_structs_array>` recursively up to 16 dimensions.
 
 Notes:
 
 - **The `upload_files_*` types are defined from the `$_FILES` structure.** Cf. <https://www.php.net/manual/en/features.file-upload.post-method.php>.
 
-- **The `*_[00-0F]` types are to enable limited recursion.** PHPStan does not handle recursive type aliases, so `upload_files_array` and `upload_struct_array` cannot ever refer back to themselves. As a result, those type aliases refer to the `*_[00-0F]` types to enable recursion to 16 dimensions. Consumers need not use these recursion-enabling type aliases.
+- **The `*_[00-0F]` types are to enable limited recursion.** PHPStan does not handle recursive type aliases, so `upload_files_array` and `upload_structs_array` cannot ever refer back to themselves. As a result, those type aliases refer to the `*_[00-0F]` types to enable recursion to 16 dimensions. Consumers need not use these recursion-enabling type aliases.
 
 ## Implementations
 
@@ -142,7 +142,7 @@ Thus, Upload-Interop being separated from a particular presentation format gives
 
 ### Why is there no _UploadCollection_ ?
 
-`$_GET` and `$_POST` user inputs are arbitrarily structured from interaction to interaction. Except for the terminating `upload_files_array_item`, the `$_FILES` user inputs are likewise arbitrarily structured. An `upload_struct_array` is a representation of that arbitrary structure.
+`$_GET` and `$_POST` user inputs are arbitrarily structured from interaction to interaction. Except for the terminating `upload_files_array_item`, the `$_FILES` user inputs are likewise arbitrarily structured. An `upload_structs_array` is a representation of that arbitrary structure.
 
 As with other user inputs, it is an application-specific concern to map those arbitrary structures to more well-defined ones, such as domain-specific collections.
 

@@ -1,4 +1,4 @@
-# Structure of `upload_struct_array` from `$_FILES`
+# Structure of `upload_structs_array` from `$_FILES`
 
 Normally, the `$_FILES` array looks like this with a single file upload ...
 
@@ -87,7 +87,7 @@ $uploads = [
 ];
 ```
 
-That modified structure is what `upload_struct_array` type represents, with the addition that instead of presenting the file information as an array, it is encapsulated in an _UploadStruct_ instance:
+That modified structure is what `upload_structs_array` type represents, with the addition that instead of presenting the file information as an array, it is encapsulated in an _UploadStruct_ instance:
 
 ```php
 $uploads = [
