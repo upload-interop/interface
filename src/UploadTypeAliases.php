@@ -4,6 +4,61 @@ declare(strict_types=1);
 namespace UploadInterop\Interface;
 
 /**
+ * The [_UploadTypeAliases_][] interface provides these custom PHPStan types to
+ * aid static analysis:
+ *
+ * - ```
+ *   upload_files_array: array<
+ *       array-key,
+ *       upload_files_item_array|upload_files_group_array|upload_files_array
+ *   >
+ *   ```
+ *     - A representation of `$_FILES` of up to 16 dimensions.
+ *
+ * - ```
+ *   upload_files_group_array: array{
+ *       tmp_name:string[],
+ *       error:int[],
+ *       name?:string[],
+ *       full_path?:string[],
+ *       type?:string[],
+ *       size?:int[],
+ *   }
+ *   ```
+ *     - An `array` of a group of uploaded files.
+ *
+ * - ```
+ *   upload_files_item_array: array{
+ *       tmp_name:string,
+ *       error:int,
+ *       name?:string,
+ *       full_path?:string,
+ *       type?:string,
+ *       size?:int,
+ *   }
+ *   ```
+ *     - An `array` of a single uploaded file.
+ *
+ * - ```
+ *   upload_structs_array: array<
+ *       array-key,
+ *       UploadStruct|upload_structs_array
+ *   >
+ *   ```
+ *     - An `array` of [_UploadStruct_][] instances of up to 16 dimensions.
+ *
+ * - Notes:
+ *
+ *     - **The `upload_files_*` types are defined from the `$_FILES` structure.**
+ *       Cf. <https://www.php.net/manual/en/features.file-upload.post-method.php>.
+ *
+ *     - **The `*_[00-0F]` types are to enable limited recursion.** PHPStan does
+ *       not handle recursive type aliases, so `upload_files_array` and
+ *       `upload_structs_array` cannot ever refer back to themselves. As a
+ *       result, those type aliases refer to the `*_[00-0F]` types to enable
+ *       recursion to 16 dimensions. Consumers need not use these
+ *       recursion-enabling type aliases.
+ *
  * @phpstan-type upload_files_array    array<array-key, upload_files_group_array|upload_files_item_array|upload_files_array_00>
  * @phpstan-type upload_files_array_00 array<array-key, upload_files_group_array|upload_files_item_array|upload_files_array_01>
  * @phpstan-type upload_files_array_01 array<array-key, upload_files_group_array|upload_files_item_array|upload_files_array_02>

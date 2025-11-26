@@ -19,157 +19,7 @@ Upload-Interop defines these interfaces:
 
 Upload-Interop also defines an [_UploadTypeAliases_][] interface with PHPStan types to aid static analysis.
 
-### _UploadStruct_
-
-The [_UploadStruct_][] interface represents the `$_FILES` values for a single
-uploaded file.
-
-- Directives:
-
-    - Implementations MAY validate [_UploadStruct_][] values; implementations
-      doing so MUST throw an [_UploadThrowable_][] when a value is invalid.
-
-- Notes:
-
-    - **The interface defines property hooks for `get` but not `set`.** The
-      interface only guarantees readability; writability is outside the scope
-      of this package.
-
-    - **The properties are in `snake_case`, not `camelCase`.** This maintains
-      a direct 1:1 correspondence between the native `$_FILES` array keys and
-      the [_UploadStruct_][] properties.
-
-    - **There are no affordances for operating on the uploaded file itself.**
-      Reading from, writing to, moving, copying, renaming, etc. an uploaded
-      file are application-specific concerns, independent from any specific
-      [_UploadStruct_][] implementation.
-
-- Properties:
-
-    - ```php
-      public string $tmp_name { get; }
-      ```
-        - Corresponds to the `'tmp_name'` key in an `upload_files_item_array`.
-
-    - ```php
-      public int $error { get; }
-      ```
-        - Corresponds to the `'error'` key in an `upload_files_item_array`.
-
-    - ```php
-      public ?string $name { get; }
-      ```
-        - Corresponds to the `'name'` key in an `upload_files_item_array`.
-
-    - ```php
-      public ?string $full_path { get; }
-      ```
-        - Corresponds to the `'full_path'` key in an `upload_files_item_array`.
-
-    - ```php
-      public ?string $type { get; }
-      ```
-        - Corresponds to the `'type'` key in an `upload_files_item_array`.
-
-    - ```php
-      public ?int $size { get; }
-      ```
-        - Corresponds to the `'size'` key in an `upload_files_item_array`.
-
-### _UploadStructFactory_
-
-The [_UploadStructFactory_][] affords creating one or more [_UploadStruct_][]
-instances.
-
-- Methods:
-
-    - ```php
-      public function newUpload(
-          string $tmp_name,
-          int $error,
-          ?string $name = null,
-          ?string $full_path = null,
-          ?string $type = null,
-          ?int $size = null,
-      ) : UploadStruct;
-      ```
-        - Creates a single [_UploadStruct_][] instance.
-
-    - ```php
-      public function newUploadsFromFiles(
-          upload_files_array $files,
-      ) : upload_structs_array;
-      ```
-        - Creates an `upload_structs_array` of [_UploadStruct_][] instances parsed
-        from an `upload_files_array`.
-
-        - Directives:
-
-            - Implementations MUST return an `upload_structs_array` index
-              structure that corresponds to the structure in which the
-              `upload_files_array` fields were indexed; cf. [README-FILES.md][].
-
-### _UploadThrowable_
-
-The [_UploadThrowable_][] interface extends [_Throwable_][] to mark an
-[_Exception_][] as upload-related. It adds no class members.
-
-### _UploadTypeAliases_
-
-The [_UploadTypeAliases_][] interface provides these custom PHPStan types to
-aid static analysis:
-
-- ```
-  upload_files_array: array<
-      array-key,
-      upload_files_item_array|upload_files_group_array|upload_files_array
-  >
-  ```
-    - A representation of `$_FILES` of up to 16 dimensions.
-
-- ```
-  upload_files_group_array: array{
-      tmp_name:string[],
-      error:int[],
-      name?:string[],
-      full_path?:string[],
-      type?:string[],
-      size?:int[],
-  }
-  ```
-    - An `array` of a group of uploaded files.
-
-- ```
-  upload_files_item_array: array{
-      tmp_name:string,
-      error:int,
-      name?:string,
-      full_path?:string,
-      type?:string,
-      size?:int,
-  }
-  ```
-    - An `array` of a single uploaded file.
-
-- ```
-  upload_structs_array: array<
-      array-key,
-      UploadStruct|upload_structs_array
-  >
-  ```
-    - An `array` of [_UploadStruct_][] instances of up to 16 dimensions.
-
-- Notes:
-
-    - **The `upload_files_*` types are defined from the `$_FILES` structure.**
-      Cf. <https://www.php.net/manual/en/features.file-upload.post-method.php>.
-
-    - **The `*_[00-0F]` types are to enable limited recursion.** PHPStan does
-      not handle recursive type aliases, so `upload_files_array` and
-      `upload_structs_array` cannot ever refer back to themselves. As a
-      result, those type aliases refer to the `*_[00-0F]` types to enable
-      recursion to 16 dimensions. Consumers need not use these
-      recursion-enabling type aliases.
+{{= docs }}
 
 ## Implementations
 
@@ -224,6 +74,7 @@ class Upload implements UploadInteropInterface
 
 ... and this more-preferable one:
 
+
 ```php
 use UploadInterop\Interface\UploadStruct;
 
@@ -232,6 +83,7 @@ class Upload implements UploadStruct
     // ...
 }
 ```
+
 
 Further, the interface is struct-like in that it is composed only of properties.
 
