@@ -43,70 +43,70 @@ uploaded file.
       file are application-specific concerns, independent from any specific
       [_UploadStruct_][] implementation.
 
-- Properties:
+#### _UploadStruct_ Properties
 
-    - ```php
-      public string $tmp_name { get; }
-      ```
-        - Corresponds to the `'tmp_name'` key in an `upload_files_item_array`.
+- ```php
+  public string $tmp_name { get; }
+  ```
+    - Corresponds to the `'tmp_name'` key in an `upload_files_item_array`.
 
-    - ```php
-      public int $error { get; }
-      ```
-        - Corresponds to the `'error'` key in an `upload_files_item_array`.
+- ```php
+  public int $error { get; }
+  ```
+    - Corresponds to the `'error'` key in an `upload_files_item_array`.
 
-    - ```php
-      public ?string $name { get; }
-      ```
-        - Corresponds to the `'name'` key in an `upload_files_item_array`.
+- ```php
+  public ?string $name { get; }
+  ```
+    - Corresponds to the `'name'` key in an `upload_files_item_array`.
 
-    - ```php
-      public ?string $full_path { get; }
-      ```
-        - Corresponds to the `'full_path'` key in an `upload_files_item_array`.
+- ```php
+  public ?string $full_path { get; }
+  ```
+    - Corresponds to the `'full_path'` key in an `upload_files_item_array`.
 
-    - ```php
-      public ?string $type { get; }
-      ```
-        - Corresponds to the `'type'` key in an `upload_files_item_array`.
+- ```php
+  public ?string $type { get; }
+  ```
+    - Corresponds to the `'type'` key in an `upload_files_item_array`.
 
-    - ```php
-      public ?int $size { get; }
-      ```
-        - Corresponds to the `'size'` key in an `upload_files_item_array`.
+- ```php
+  public ?int $size { get; }
+  ```
+    - Corresponds to the `'size'` key in an `upload_files_item_array`.
 
 ### _UploadStructFactory_
 
 The [_UploadStructFactory_][] affords creating one or more [_UploadStruct_][]
 instances.
 
-- Methods:
+#### _UploadStructFactory_ Methods
 
-    - ```php
-      public function newUpload(
-          string $tmp_name,
-          int $error,
-          ?string $name = null,
-          ?string $full_path = null,
-          ?string $type = null,
-          ?int $size = null,
-      ) : UploadStruct;
-      ```
-        - Creates a single [_UploadStruct_][] instance.
+- ```php
+  public function newUpload(
+      string $tmp_name,
+      int $error,
+      ?string $name = null,
+      ?string $full_path = null,
+      ?string $type = null,
+      ?int $size = null,
+  ) : UploadStruct;
+  ```
+    - Creates a single [_UploadStruct_][] instance.
 
-    - ```php
-      public function newUploadsFromFiles(
-          upload_files_array $files,
-      ) : upload_structs_array;
-      ```
-        - Creates an `upload_structs_array` of [_UploadStruct_][] instances parsed
-        from an `upload_files_array`.
+- ```php
+  public function newUploadsFromFiles(
+      upload_files_array $files,
+  ) : upload_structs_array;
+  ```
+    - Creates an `upload_structs_array` of [_UploadStruct_][] instances parsed
+    from an `upload_files_array`.
 
-        - Directives:
+    - Directives:
 
-            - Implementations MUST return an `upload_structs_array` index
-              structure that corresponds to the structure in which the
-              `upload_files_array` fields were indexed; cf. [README-FILES.md][].
+        - Implementations MUST return an `upload_structs_array` index
+          structure that corresponds to the structure in which the
+          `upload_files_array` fields were indexed; cf. [README-FILES.md][].
 
 ### _UploadThrowable_
 
