@@ -16,8 +16,7 @@ Upload-Interop defines these interfaces:
 - [_UploadStruct_][] represents the `$_FILES` values for a single uploaded file.
 - [_UploadStructFactory_][] affords creating one or more [_UploadStruct_][] instances.
 - [_UploadThrowable_][] extends [_Throwable_][] to mark an [_Exception_][] as upload-related.
-
-Upload-Interop also defines an [_UploadTypeAliases_][] interface with PHPStan types to aid static analysis.
+- [_UploadTypeAliases_][] provides custom PHPStan types to aid static analysis.
 
 {{= docs }}
 
