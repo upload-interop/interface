@@ -13,9 +13,9 @@ This package attempts to adhere to the [Package Development Standards](https://p
 
 Upload-Interop defines these interfaces:
 
-- [_UploadStruct_][] represents an individual upload.
+- [_UploadStruct_][] represents the `$_FILES` values for a single uploaded file.
 - [_UploadStructFactory_][] affords creating one or more [_UploadStruct_][] instances.
-- [_UploadThrowable_][] marks an [_Exception_][] as upload-related.
+- [_UploadThrowable_][] extends [_Throwable_][] to mark an [_Exception_][] as upload-related.
 
 Upload-Interop also defines an [_UploadTypeAliases_][] interface with PHPStan types to aid static analysis.
 
@@ -94,6 +94,7 @@ It is true that none of the researched implementations use _Struct_ in their nam
 [_DateTime_]: https://www.php.net/manual/en/class.datetime.php
 [_Exception_]: https://php.net/Exception
 [_SimpleXmlElement_]: https://www.php.net/manual/en/class.simplexmlelement.php
+[_Throwable_]: https://php.net/Throwable
 [_UploadStruct_]: #uploadstruct
 [_UploadStructFactory_]: #uploadstructfactory
 [_UploadThrowable_]: #uploadthrowable
