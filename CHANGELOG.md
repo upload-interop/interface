@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.0.0-beta1
+
+Incorporated indications from public review:
+
+- Added `upload_` prefix on type aliases.
+- Renamed `upload_struct_array` to `upload_structs_array`.
+- Improved language consistency with other *-interops
+
 ## 1.0.0-alpha2
 
 Incoporated indications from public review:
