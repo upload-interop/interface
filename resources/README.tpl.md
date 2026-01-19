@@ -44,7 +44,7 @@ Upload-Interop defines these interfaces:
 
 ## Q & A
 
-## Why a separate Upload-Interop?
+### Why a separate Upload-Interop?
 
 Whereas the key structures of `$_GET`, `$_POST`, etc. superglobal arrays are not well-defined, the terminating `upload_files_array_item` data structure in the `$_FILES` superglobal **is** well-defined. However, one wants to be able to pass that data structure (or a representation of it) into presentation-independent application or domain logic. As such, one would prefer something that is not tied to a particular presentation format.
 
