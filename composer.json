@@ -1,8 +1,8 @@
 {
     "name": "upload-interop/interface",
     "type": "library",
-    "description": "",
-    "keywords": [],
+    "description": "Standard interfaces for handling uploads.",
+    "keywords": ["standard", "upload", "files"],
     "license": "MIT",
     "homepage": "https://github.com/upload-interop/interface/",
     "authors": [
