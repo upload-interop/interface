@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace UploadInterop\Interface;
 
 /**
- * The [_UploadStruct_][] interface represents the `$_FILES` values for a single
- * uploaded file.
+ * [_UploadStruct_][] represents the `$_FILES` values for a single uploaded
+ * file.
  *
  * - Directives:
  *

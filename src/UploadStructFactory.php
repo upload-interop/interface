@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace UploadInterop\Interface;
 
 /**
- * The [_UploadStructFactory_][] affords creating one or more [_UploadStruct_][]
+ * [_UploadStructFactory_][] affords creating one or more [_UploadStruct_][]
  * instances.
  *
  * @phpstan-import-type upload_files_array from UploadTypeAliases

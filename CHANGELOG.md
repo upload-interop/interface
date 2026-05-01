@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.0.1
+
+- Convert to Stardoc for README generation by moving source text for docs into
+  the interface docblocks. This reorganizes the README but leaves normative
+  intent and meaning unchanged.
+
+- Meta-files refresh, typo fixes, and code hygiene updates.
+
 ## 1.0.0
 
 First stable release.

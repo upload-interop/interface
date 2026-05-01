@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace UploadInterop\Interface;
 
 /**
- * The [_UploadTypeAliases_][] interface provides custom PHPStan types to aid
- * static analysis.
+ * [_UploadTypeAliases_][] provides custom PHPStan types to aid static
+ * analysis.
  *
  * - ```
  *   upload_files_array: array<

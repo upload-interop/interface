@@ -11,17 +11,20 @@ This package attempts to adhere to the [Package Development Standards](https://p
 
 ## Interfaces
 
-Upload-Interop defines these interfaces:
+This package defines the following interfaces:
 
 - [_UploadStruct_][] represents the `$_FILES` values for a single uploaded file.
+
 - [_UploadStructFactory_][] affords creating one or more [_UploadStruct_][] instances.
+
 - [_UploadThrowable_][] extends [_Throwable_][] to mark an [_Exception_][] as upload-related.
+
 - [_UploadTypeAliases_][] provides custom PHPStan types to aid static analysis.
 
 ### _UploadStruct_
 
-The [_UploadStruct_][] interface represents the `$_FILES` values for a single
-uploaded file.
+[_UploadStruct_][] represents the `$_FILES` values for a single uploaded
+file.
 
 - Directives:
 
@@ -77,7 +80,7 @@ uploaded file.
 
 ### _UploadStructFactory_
 
-The [_UploadStructFactory_][] affords creating one or more [_UploadStruct_][]
+[_UploadStructFactory_][] affords creating one or more [_UploadStruct_][]
 instances.
 
 #### _UploadStructFactory_ Methods
@@ -110,13 +113,15 @@ instances.
 
 ### _UploadThrowable_
 
-The [_UploadThrowable_][] interface extends [_Throwable_][] to mark an
-[_Exception_][] as upload-related. It adds no class members.
+[_UploadThrowable_][] extends [_Throwable_][] to mark an [_Exception_][] as
+upload-related.
+
+It adds no class members.
 
 ### _UploadTypeAliases_
 
-The [_UploadTypeAliases_][] interface provides custom PHPStan types to aid
-static analysis.
+[_UploadTypeAliases_][] provides custom PHPStan types to aid static
+analysis.
 
 - ```
   upload_files_array: array<
@@ -196,7 +201,7 @@ static analysis.
 
 ### Why a separate Upload-Interop?
 
-Whereas the key structures of `$_GET`, `$_POST`, etc. superglobal arrays are not well-defined, the terminating `upload_files_array_item` data structure in the `$_FILES` superglobal **is** well-defined. However, one wants to be able to pass that data structure (or a representation of it) into presentation-independent application or domain logic. As such, one would prefer something that is not tied to a particular presentation format.
+Whereas the key structures of `$_GET`, `$_POST`, etc. superglobal arrays are not well-defined, the terminating `upload_files_item_array` data structure in the `$_FILES` superglobal **is** well-defined. However, one wants to be able to pass that data structure (or a representation of it) into presentation-independent application or domain logic. As such, one would prefer something that is not tied to a particular presentation format.
 
 For example, embedding the Upload-Interop structures in an HTTP-related standard could reasonably be considered to be tying the structures to the HTTP presentation format. That in turn would make Upload-Interop academically unsuitable for application or domain use.
 
@@ -204,7 +209,7 @@ Thus, Upload-Interop being separated from a particular presentation format gives
 
 ### Why is there no _UploadCollection_ ?
 
-`$_GET` and `$_POST` user inputs are arbitrarily structured from interaction to interaction. Except for the terminating `upload_files_array_item`, the `$_FILES` user inputs are likewise arbitrarily structured. An `upload_structs_array` is a representation of that arbitrary structure.
+`$_GET` and `$_POST` user inputs are arbitrarily structured from interaction to interaction. Except for the terminating `upload_files_item_array`, the `$_FILES` user inputs are likewise arbitrarily structured. An `upload_structs_array` is a representation of that arbitrary structure.
 
 As with other user inputs, it is an application-specific concern to map those arbitrary structures to more well-defined ones, such as domain-specific collections.
 
@@ -246,10 +251,8 @@ It is true that none of the researched implementations use _Struct_ in their nam
 [_UploadStructFactory_]: #uploadstructfactory
 [_UploadThrowable_]: #uploadthrowable
 [_UploadTypeAliases_]: #uploadtypealiases
-[BCP 14]: https://www.rfc-editor.org/info/bcp14
+[BCP 14]: https://datatracker.ietf.org/doc/bcp14/
 [README-FILES.md]: ./README-FILES.md
 [README-RESEARCH.md]: ./README-RESEARCH.md
-[RFC 2119]: https://www.rfc-editor.org/rfc/rfc2119.txt
-[RFC 3986]: https://datatracker.ietf.org/doc/html/rfc3986/
-[RFC 3987]: https://datatracker.ietf.org/doc/html/rfc3987/
-[RFC 8174]: https://www.rfc-editor.org/rfc/rfc8174.txt
+[RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
+[RFC 8174]: https://datatracker.ietf.org/doc/html/rfc8174
