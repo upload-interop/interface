@@ -4,7 +4,7 @@
     "description": "Standard interfaces for handling uploads.",
     "keywords": ["standard", "upload", "files"],
     "license": "MIT",
-    "homepage": "https://github.com/upload-interop/interface/",
+    "homepage": "https://github.com/upload-interop/interface",
     "authors": [
         {
             "name": "Paul M. Jones",
@@ -25,15 +25,14 @@
         "pds/composer-script-names": "^1.0",
         "pds/skeleton": "^1.0",
         "phpstan/phpstan": "^2.0",
-        "phpunit/phpunit": "^11.0"
-    },
-    "autoload-dev": {
-        "psr-4" : {
-            "UploadInterop\\Interface\\": "tests/"
-        }
+        "star-interop/stardoc": "1.x-dev",
+        "pmjones/php-styler": "0.x@dev"
     },
     "scripts": {
         "analyze": "./vendor/bin/phpstan",
-        "check": "composer analyze"
+        "check": "composer analyze && composer cs-clear && composer cs-check",
+        "cs-check": "./vendor/bin/php-styler check",
+        "cs-clear": "./vendor/bin/php-styler clear-cache",
+        "cs-fix": "./vendor/bin/php-styler apply"
     }
 }

@@ -11,7 +11,7 @@ namespace UploadInterop\Interface;
  *
  *     - Implementations MAY validate [_UploadStruct_][] values; implementations
  *       doing so MUST throw an [_UploadThrowable_][] when a value is invalid.
-
+ 
  * - Notes:
  *
  *     - **The interface defines property hooks for `get` but not `set`.** The
